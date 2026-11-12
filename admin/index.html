@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>لوحة المسؤول - مذاكرتي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F6FA;--card:#fff;--ink:#1B2540;--mute:#6B7690;--line:#E3E7F0;--acc:#0E8F7E;--acc2:#E7F6F3;--mid:#D9911A;--bad:#D14343;--bar:#E3E7F0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10162A;--card:#19213A;--ink:#EAEFFA;--mute:#98A3BF;--line:#2A3454;--acc:#35C4B0;--acc2:#16332F;--mid:#F0B24A;--bad:#F07474;--bar:#2A3454;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10162A;--card:#19213A;--ink:#EAEFFA;--mute:#98A3BF;--line:#2A3454;--acc:#35C4B0;--acc2:#16332F;--mid:#F0B24A;--bad:#F07474;--bar:#2A3454;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,sans-serif;line-height:1.6}
+main{max-width:960px;margin:0 auto;padding:16px}
+h1{font-size:24px;font-weight:800;margin:0}h2{font-size:17px;margin:0 0 10px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.demo{background:rgba(217,145,26,.14);color:var(--mid);border-radius:12px;padding:8px 12px;font-size:13px;font-weight:600;margin-bottom:12px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px}
+.tabs button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--mute);border-radius:12px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer}
+.tabs button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}.grid .card{margin:0}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}.g2 .card{margin-bottom:0}
+.big{font-size:28px;font-weight:800;line-height:1.2}.mute{color:var(--mute);font-size:14px}
+.row{display:flex;align-items:center;gap:10px}.sp{justify-content:space-between}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--acc);display:inline-block}
+.chip{font-size:13px;background:var(--acc2);color:var(--acc);padding:2px 10px;border-radius:20px;font-weight:600;white-space:nowrap}
+.chip.bad{background:rgba(209,67,67,.12);color:var(--bad)}
+.br{margin:8px 0}.br .row{font-size:14px}.br .t{height:8px;background:var(--bar);border-radius:6px;margin-top:4px;overflow:hidden}.br .t i{display:block;height:100%;background:var(--acc);border-radius:6px}
+.cols{display:flex;align-items:flex-end;gap:8px;height:120px}.cols div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:12px;color:var(--mute)}.cols i{width:100%;background:var(--acc);border-radius:5px 5px 0 0;display:block}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-width:0}input,textarea{flex:1;width:100%}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn.g{background:transparent;color:var(--acc);border:1px solid var(--acc)}.btn.r{background:transparent;color:var(--bad);border:1px solid var(--bad)}
+.btn.s{padding:5px 12px;font-size:13px}
+.x{background:none;border:0;color:var(--mute);font-size:16px;cursor:pointer}
+.ul{border-top:1px solid var(--line);padding:10px 0}.ul:first-child{border:0}
+.sec{font-weight:600;margin:12px 0 4px}
+.lsn{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:var(--bg);border-radius:8px;margin-bottom:4px}
+.tw{overflow-x:auto}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>لوحة المسؤول</h1><span class="chip">مذاكرتي</span></div>
+<div class="demo">عرض تجريبي: كل الأرقام والأسماء وهمية، وستصبح حقيقية بعد ربط السيرفر وقاعدة البيانات.</div>
+<div class="tabs" id="tabs"></div>
+<div id="v"></div>
+</main>
+<script>
+var TAB=0,STAGE='تاسع',SUBJ='الرياضيات',Q='';
+var TABS=['نظرة عامة','المحتوى','المستخدمون','الإعلانات'];
+var CONTENT={
+'تاسع':{'الرياضيات':{'الوحدة الأولى':['الأعداد الحقيقية','الجذور'],'الوحدة الثانية':['المعادلات','المتراجحات']},'الفيزياء':{'الوحدة الأولى':['الحركة','القوى']}},
+'بكالوريا علمي':{'الرياضيات':{'الوحدة الأولى':['النهايات','الاستمرار'],'الوحدة الثانية':['الاشتقاق','التكامل']},'الكيمياء':{'الوحدة الأولى':['الجدول الدوري']}},
+'بكالوريا أدبي':{'التاريخ':{'الوحدة الأولى':['العصر القديم','العصر الوسيط']},'الجغرافيا':{'الوحدة الأولى':['المناخ']}}};
+var USERS=[['سارة','تاسع','حلب','s***@mail.com','اليوم'],['أحمد','بكالوريا علمي','دمشق','a***@mail.com','اليوم'],['لينا','بكالوريا أدبي','حمص','l***@mail.com','أمس'],['محمد','جامعة','اللاذقية','m***@mail.com','اليوم'],['رنا','تاسع','حماة','r***@mail.com','قبل 3 أيام'],['عمر','بكالوريا علمي','ريف دمشق','o***@mail.com','اليوم'],['هبة','تاسع','دمشق','h***@mail.com','أمس'],['يوسف','جامعة','حلب','y***@mail.com','قبل أسبوع'],['دانا','بكالوريا علمي','طرطوس','d***@mail.com','اليوم'],['خالد','بكالوريا أدبي','إدلب','k***@mail.com','قبل يومين']].map(function(u){return{n:u[0],s:u[1],g:u[2],e:u[3],l:u[4],b:false}});
+var ANN=[{t:'بالتوفيق للجميع بالامتحانات القادمة',a:'الكل',w:'قبل يومين'}];
+function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function bars(a){var m=Math.max.apply(null,a.map(function(x){return x[1]}));return a.map(function(x){return'<div class="br"><div class="row sp"><span>'+x[0]+'</span><b>'+x[1].toLocaleString('ar')+'</b></div><div class="t"><i style="width:'+Math.round(x[1]/m*100)+'%"></i></div></div>'}).join('')}
+function kpi(n,l){return'<div class="card"><div class="big">'+n+'</div><div class="mute">'+l+'</div></div>'}
+function vOverview(){
+var d=[['س',352],['ح',388],['ن',401],['ث',376],['ر',429],['خ',417],['ج',395]],mx=429;
+return'<div class="card"><div class="row sp"><div class="row"><span class="dot"></span><b>السيرفر شغال</b></div><span class="chip">الإصدار 1.0.0</span></div><div class="mute" style="margin-top:6px">جاهزية 99.8٪ خلال آخر 30 يوماً · أخطاء آخر 24 ساعة: 3</div></div>'
++'<div class="grid">'+kpi('1,284','إجمالي المستخدمين')+kpi('23','مسجلون اليوم')+kpi('142','مسجلون هذا الأسبوع')+kpi('417','نشطون اليوم')+'</div>'
++'<div class="g2"><div class="card"><h2>المستخدمون حسب المرحلة</h2>'+bars([['تاسع',486],['بكالوريا علمي',402],['جامعة',228],['بكالوريا أدبي',168]])+'</div>'
++'<div class="card"><h2>المستخدمون حسب المحافظة</h2>'+bars([['دمشق',262],['حلب',231],['ريف دمشق',198],['حمص',154],['اللاذقية',140],['حماة',96],['أخرى',203]])+'</div>'
++'<div class="card"><h2>النشطون آخر 7 أيام</h2><div class="cols">'+d.map(function(x){return'<div><i style="height:'+Math.round(x[1]/mx*90)+'%"></i>'+x[0]+'</div>'}).join('')+'</div></div>'
++'<div class="card"><h2>استخدام التطبيق</h2><div class="grid" style="grid-template-columns:1fr 1fr">'+kpi('3,842 س','ساعات دراسة إجمالية')+kpi('46٪','يعودون بعد أسبوع')+'</div>'+bars([['المهام',82],['المراجعة',64],['المؤقت',57],['الإحصائيات',49]]).replace(/<b>(\d+)<\/b>/g,'<b>$1٪</b>')+'</div>'
++'<div class="card"><h2>آخر الملاحظات من الطلاب</h2><div class="ul">المؤقت ممتاز، ياريت تضيفوا أصوات هادئة<div class="mute">طالب بكالوريا علمي</div></div><div class="ul">بدي أضيف درس ناقص بمادة الكيمياء<div class="mute">طالبة تاسع</div></div><div class="ul">الإشعارات ما وصلتني<div class="mute">طالب جامعة</div></div></div></div>'}
+function vContent(){
+var st=Object.keys(CONTENT),sj=Object.keys(CONTENT[STAGE]);if(sj.indexOf(SUBJ)<0)SUBJ=sj[0];
+var un=CONTENT[STAGE][SUBJ],h='<div class="card"><div class="row"><select id="cs" onchange="STAGE=this.value;render()">'+st.map(function(s){return'<option'+(s==STAGE?' selected':'')+'>'+s+'</option>'}).join('')+'</select><select id="cj" onchange="SUBJ=this.value;render()">'+sj.map(function(s){return'<option'+(s==SUBJ?' selected':'')+'>'+s+'</option>'}).join('')+'</select></div><div class="mute" style="margin-top:8px">أي تعديل هنا يظهر عند الطلاب فوراً (بعد ربط السيرفر).</div></div>';
+Object.keys(un).forEach(function(u,i){h+='<div class="card"><div class="row sp"><h2 style="margin:0">'+esc(u)+' <span class="mute">('+un[u].length+' دروس)</span></h2><button class="btn r s" onclick="delU('+i+')">حذف الوحدة</button></div>'
++un[u].map(function(l,j){return'<div class="lsn"><span>'+esc(l)+'</span><button class="x" onclick="delL('+i+','+j+')" aria-label="حذف">✕</button></div>'}).join('')
++'<div class="row" style="margin-top:8px"><input id="nl'+i+'" placeholder="اسم درس جديد"><button class="btn g" onclick="addL('+i+')">إضافة</button></div></div>'});
+h+='<div class="card"><div class="row"><input id="nu" placeholder="اسم وحدة جديدة"><button class="btn" onclick="addU()">إضافة وحدة</button></div></div>';return h}
+function keys(){return Object.keys(CONTENT[STAGE][SUBJ])}
+function addL(i){var e=document.getElementById('nl'+i),v=e.value.trim();if(!v)return e.focus();CONTENT[STAGE][SUBJ][keys()[i]].push(v);render()}
+function delL(i,j){CONTENT[STAGE][SUBJ][keys()[i]].splice(j,1);render()}
+function addU(){var e=document.getElementById('nu'),v=e.value.trim();if(!v)return e.focus();if(!CONTENT[STAGE][SUBJ][v])CONTENT[STAGE][SUBJ][v]=[];render()}
+function delU(i){delete CONTENT[STAGE][SUBJ][keys()[i]];render()}
+function vUsers(){
+var f=USERS.filter(function(u){return u.n.indexOf(Q)>=0});
+return'<div class="card"><input id="q" placeholder="ابحث باسم الطالب" value="'+esc(Q)+'" oninput="Q=this.value.trim();render(true)"><div class="mute" style="margin-top:8px">لا يظهر الرقم ولا الإيميل كاملاً، حفاظاً على خصوصية الطلاب.</div></div><div class="card">'
++(f.length?f.map(function(u){var i=USERS.indexOf(u);return'<div class="ul row sp"><div><b>'+esc(u.n)+'</b> '+(u.b?'<span class="chip bad">محظور</span>':'')+'<div class="mute">'+esc(u.s)+' · '+esc(u.g)+' · '+esc(u.e)+'</div><div class="mute">آخر نشاط: '+u.l+'</div></div><div class="row"><button class="btn g s" onclick="blk('+i+')">'+(u.b?'إلغاء الحظر':'حظر')+'</button><button class="btn r s" onclick="delUser('+i+')">حذف</button></div></div>'}).join(''):'<div class="mute" style="text-align:center">ما في نتائج.</div>')+'</div>'}
+function blk(i){USERS[i].b=!USERS[i].b;render(true)}
+function delUser(i){USERS.splice(i,1);render(true)}
+function vAnn(){
+return'<div class="card"><h2>إرسال إعلان</h2><textarea id="at" rows="3" placeholder="اكتب الرسالة هنا"></textarea><div class="row" style="margin-top:8px"><select id="aa"><option>الكل</option><option>تاسع</option><option>بكالوريا علمي</option><option>بكالوريا أدبي</option><option>جامعة</option></select><button class="btn" onclick="sendA()">إرسال</button></div></div>'
++'<div class="card"><h2>الإعلانات المرسلة</h2>'+ANN.map(function(a){return'<div class="ul"><div>'+esc(a.t)+'</div><div class="mute"><span class="chip">'+esc(a.a)+'</span> · '+a.w+'</div></div>'}).join('')+'</div>'}
+function sendA(){var e=document.getElementById('at'),v=e.value.trim();if(!v)return e.focus();ANN.unshift({t:v,a:document.getElementById('aa').value,w:'الآن'});render()}
+function render(keep){
+document.getElementById('tabs').innerHTML=TABS.map(function(t,i){return'<button class="'+(i==TAB?'on':'')+'" onclick="TAB='+i+';render()">'+t+'</button>'}).join('');
+document.getElementById('v').innerHTML=[vOverview,vContent,vUsers,vAnn][TAB]();
+if(keep&&TAB==2){var q=document.getElementById('q');q.focus();q.setSelectionRange(q.value.length,q.value.length)}}
+render();
+</script>
+</body>
+</html>
