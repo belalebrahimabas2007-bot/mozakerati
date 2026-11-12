@@ -153,7 +153,7 @@ language plpgsql
 set search_path = ''
 as $$
 begin
-  if new.role is distinct from old.role and not public.is_admin() then
+  if new.role is distinct from old.role and not public.is_admin() and current_user not in ('postgres','supabase_admin') then
     raise exception 'Only an administrator can change profile roles';
   end if;
   new.updated_at = now();
