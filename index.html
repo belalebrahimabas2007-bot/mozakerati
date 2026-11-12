@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مذاكرتي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F6FA;--card:#fff;--ink:#1B2540;--mute:#6B7690;--line:#E3E7F0;--acc:#0E8F7E;--acc2:#E7F6F3;--good:#0E8F7E;--mid:#D9911A;--bad:#D14343;--bar:#E3E7F0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10162A;--card:#19213A;--ink:#EAEFFA;--mute:#98A3BF;--line:#2A3454;--acc:#35C4B0;--acc2:#16332F;--good:#35C4B0;--mid:#F0B24A;--bad:#F07474;--bar:#2A3454;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10162A;--card:#19213A;--ink:#EAEFFA;--mute:#98A3BF;--line:#2A3454;--acc:#35C4B0;--acc2:#16332F;--good:#35C4B0;--mid:#F0B24A;--bad:#F07474;--bar:#2A3454;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,sans-serif;font-size:16px;line-height:1.6;min-height:100vh}
+main{max-width:560px;margin:0 auto;padding:16px 16px 96px}
+h1{font-size:24px;font-weight:800;margin:4px 0 2px}h2{font-size:18px;margin:18px 0 8px}
+.sub{color:var(--mute);margin:0 0 14px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+.row{display:flex;align-items:center;gap:10px}.sp{justify-content:space-between}
+.bar{height:8px;background:var(--bar);border-radius:6px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;border-radius:6px;transition:width .3s}
+.badge{font-size:13px;font-weight:600;padding:2px 10px;border-radius:20px;white-space:nowrap}
+.good{color:var(--good);background:var(--acc2)}.mid{color:var(--mid);background:rgba(217,145,26,.14)}.bad{color:var(--bad);background:rgba(209,67,67,.12)}
+.subj{cursor:pointer;width:100%;text-align:right;font:inherit;color:inherit}
+.subj b{font-size:17px}.mute{color:var(--mute);font-size:14px}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:8px 14px;font-weight:600}
+.btn.ghost{background:transparent;color:var(--acc);border:1px solid var(--acc)}
+.chk{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);background:transparent;color:#fff;flex:none;display:grid;place-items:center;font-size:15px}
+.chk.on{background:var(--acc);border-color:var(--acc)}
+.done{color:var(--mute);text-decoration:line-through}
+input,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-width:0}
+input{flex:1}
+nav{position:fixed;inset:auto 0 0 0;background:var(--card);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;background:none;border:0;color:var(--mute);padding:10px 2px 8px;font-size:12px;font-weight:600}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--acc);color:#fff;border:0;font-weight:800;font-size:17px;font-family:inherit;display:grid;place-items:center;cursor:pointer}
+.timer{font-size:68px;font-weight:800;line-height:1.1;margin:10px 0 6px;font-variant-numeric:tabular-nums;direction:ltr}
+.chip{padding:6px 14px;font-size:14px}
+.btn.big2{width:100%;font-size:18px;padding:12px}
+.pm{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px 16px 20px;text-align:center;margin-bottom:12px}
+.seg{display:flex;background:var(--bar);border-radius:14px;padding:4px;gap:4px;margin:0 auto 12px;max-width:340px}
+.seg button{flex:1;border:0;background:transparent;color:var(--mute);padding:9px 4px;border-radius:11px;font-weight:600;font-size:14px;font-family:inherit}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.ringw{position:relative;width:min(280px,76vw);aspect-ratio:1;margin:8px auto 16px}
+.ringw svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ringw .ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ringw .tm{font-size:58px;font-weight:800;font-variant-numeric:tabular-nums;direction:ltr;line-height:1}
+#pr{transition:stroke-dashoffset .5s linear}
+.pill{display:inline-block;padding:3px 14px;border-radius:20px;font-size:13px;font-weight:600;background:var(--acc2);color:var(--acc)}
+.go{width:100%;max-width:340px;border:0;border-radius:16px;padding:15px;font-size:19px;font-weight:800;background:var(--acc);color:#fff;font-family:inherit;cursor:pointer}
+.tk{display:flex;align-items:center;gap:10px;width:100%;text-align:right;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;font:inherit;color:inherit;cursor:pointer}
+.tk.on{border-color:var(--acc);background:var(--acc2)}
+.tk i{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);flex:none}
+.tk.on i{border-color:var(--acc);background:var(--acc);box-shadow:inset 0 0 0 3px var(--acc2)}
+nav button span{display:block;font-size:20px;line-height:1.2}
+nav button.on{color:var(--acc)}
+.back{background:none;border:0;color:var(--acc);font-weight:600;padding:4px 0;margin-bottom:6px}
+.sec{font-size:14px;font-weight:600;color:var(--mute);margin:16px 0 6px}
+.empty{text-align:center;color:var(--mute);padding:22px 8px}
+.score{font-size:34px;font-weight:800;line-height:1}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}.grid .card{margin:0}.big{font-size:28px;font-weight:800;line-height:1.2}
+.chart{display:flex;align-items:flex-end;gap:8px;height:110px;margin-top:6px}.chart div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:12px;color:var(--mute)}.chart .stk{width:100%;display:flex;flex-direction:column;justify-content:flex-end;flex:1}.chart .stk i{display:block;width:100%;border-radius:4px 4px 0 0}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<nav id="nav"></nav>
+<script>
+var DAY=864e5,STEPS=[1,3,7,14],KEY='mothakarati_v1';
+var now=function(){return Date.now()};
+function seed(){var d=function(n){return now()-n*DAY};
+return{tab:'subjects',open:null,tasks:[{id:1,t:'مراجعة قوانين الحركة',done:false},{id:2,t:'جري ٢٠ دقيقة',done:true}],
+subjects:[
+{id:1,name:'الفيزياء',lessons:[{id:11,n:'الحركة المستقيمة',diff:2,last:d(5),step:1},{id:12,n:'قوانين نيوتن',diff:3,last:d(1),step:0},{id:13,n:'الشغل والطاقة',diff:2,last:null,step:0},{id:14,n:'الكهرباء الساكنة',diff:1,last:null,step:0}]},
+{id:2,name:'الرياضيات',lessons:[{id:21,n:'النهايات',diff:2,last:d(3),step:0},{id:22,n:'الاشتقاق',diff:3,last:d(9),step:1},{id:23,n:'التكامل',diff:3,last:null,step:0}]},
+{id:3,name:'الكيمياء',lessons:[{id:31,n:'الجدول الدوري',diff:1,last:d(2),step:0},{id:32,n:'الروابط الكيميائية',diff:2,last:null,step:0}]}]}}
+var S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!S||!S.subjects)S=seed();
+if(!S.log){S.log=[];S.subjects.forEach(function(s){s.lessons.forEach(function(l){if(l.last!=null){S.log.push({t:l.last-l.step*DAY,k:'study'});for(var i=0;i<l.step;i++)S.log.push({t:l.last-(l.step-1-i)*DAY,k:'review'})}})})}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function mult(l){return l.diff==3?.5:l.diff==1?1.5:1}
+function dueAt(l){return l.last==null||l.step>=STEPS.length?null:l.last+STEPS[l.step]*mult(l)*DAY}
+function isDue(l){var t=dueAt(l);return t!=null&&now()>=t}
+function isLate(l){var t=dueAt(l);return t!=null&&now()>t+DAY}
+function stats(s){var n=s.lessons.length,done=s.lessons.filter(function(l){return l.last!=null}),late=done.filter(isLate).length;
+var pct=n?done.length/n:0,ontime=done.length?(done.length-late)/done.length:0;
+return{n:n,done:done.length,pct:pct,score:Math.round(pct*70+ontime*30),due:s.lessons.filter(isDue).length}}
+function grade(sc){return sc>=80?['ممتاز','good']:sc>=50?['جيد','mid']:['مقصّر','bad']}
+function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function col(c){return 'var(--'+c+')'}
+function find(id){return S.subjects.filter(function(s){return s.id==id})[0]}
+
+function viewSubjects(){
+var h='<h1>موادي</h1><p class="sub">'+esc(S.catName||'')+'</p><p class="sub">اضغط على مادة لترى دروسها وتقييمك فيها</p>';
+if(S.subjects.length&&!S.subjects.some(function(s){return s.lessons.length}))h+='<button class="btn ghost big2" style="margin-bottom:10px" onclick="demoFill()">جرّب التطبيق ببيانات تجريبية</button>';
+var list=S.subjects.slice().sort(function(a,b){return stats(a).score-stats(b).score});
+if(!list.length)h+='<div class="empty">ما في مواد بعد. أضف أول مادة من الأسفل.</div>';
+list.forEach(function(s){var st=stats(s),g=grade(st.score);
+h+='<button class="card subj" onclick="openSub('+s.id+')"><div class="row sp"><b>'+esc(s.name)+'</b><span class="badge '+g[1]+'">'+g[0]+' · '+st.score+'</span></div>'
++'<div class="mute">درست '+st.done+' من '+st.n+' دروس'+(st.due?' · '+st.due+' للمراجعة':'')+'</div>'
++'<div class="bar"><i style="width:'+Math.round(st.pct*100)+'%;background:'+col(g[1])+'"></i></div></button>'}
+);
+if(S.cat=='uni')h+='<div class="row" style="margin-top:14px"><input id="ns" placeholder="اسم مادة جديدة"><button class="btn" onclick="addSub()">إضافة</button></div>';
+return h}
+
+function setDT(i){S.dt=['all','done','rev'][i];render()}
+function nextTxt(l){var t=dueAt(l);if(t==null)return l.last==null?'':'اكتملت المراجعات ✓';if(isLate(l))return 'متأخرة';if(isDue(l))return 'حان وقتها';return 'بعد '+Math.ceil((t-now())/DAY)+' يوم'}
+function hasRev(sid,lid){return S.tasks.some(function(t){return t.lid==lid&&t.sid==sid&&t.kind=='review'&&!t.done})}
+function reviewBtn(sid,lid){return hasRev(sid,lid)?'<span class="badge good">في مهامك</span>':'<button class="btn" onclick="addReview('+sid+','+lid+')">مراجعة</button>'}
+function addReview(sid,lid){var s=find(sid),l=lesson(sid,lid);S.tasks.push({id:now(),t:'مراجعة: '+l.n+' ('+s.name+')',done:false,kind:'review',sid:sid,lid:lid});render()}
+function lrow(s,l,tab){var dn=l.last!=null,dl=['','سهل','متوسط','صعب'][l.diff],sub=tab=='rev'?nextTxt(l):dl;
+return'<div class="card row sp"><div class="row"><button class="chk'+(dn?' on':'')+'" onclick="toggleL('+s.id+','+l.id+')" aria-label="تم">'+(dn?'✓':'')+'</button><div><div'+(dn&&tab=='all'?' class="done"':'')+'>'+esc(l.n)+'</div><div class="mute">'+sub+'</div></div></div>'+(l.last==null?studyBtn(s.id,l.id):'')+(l.last!=null?reviewBtn(s.id,l.id):'')+'</div>'}
+function groupU(ls){var order=[],m={};ls.forEach(function(l){var u=l.u||'دروس أخرى';if(!m[u]){m[u]=[];order.push(u)}m[u].push(l)});return order.map(function(u){return[u,m[u]]})}
+function viewDetail2(){
+var s=find(S.open);if(!s){S.open=null;return viewSubjects()}
+var st=stats(s),g=grade(st.score),tab=S.dt||'all',idx=['all','done','rev'].indexOf(tab);
+var h='<button class="back" onclick="openSub(null)">‹ كل المواد</button><h1>'+esc(s.name)+'</h1>'
++'<div class="card"><div class="row sp"><div><div class="score" style="color:'+col(g[1])+'">'+st.score+'</div><div class="mute">التقييم: '+g[0]+'</div></div><div class="mute" style="text-align:left">مدروس '+st.done+'<br>ناقص '+(st.n-st.done)+'</div></div><div class="bar"><i style="width:'+Math.round(st.pct*100)+'%;background:'+col(g[1])+'"></i></div><div class="mute" style="margin-top:8px">٧٠٪ من الدروس المدروسة + ٣٠٪ من المراجعة بوقتها</div></div>';
+var done=s.lessons.filter(function(l){return l.last!=null}),rev=done.filter(function(l){return l.step<STEPS.length});
+var T=[['الدروس',s.lessons.length],['مدروسة',done.length],['المراجعة',st.due]];
+h+='<div class="row" style="margin:12px 0;gap:6px">'+T.map(function(t,i){return'<button class="btn'+(idx==i?'':' ghost')+'" style="flex:1;padding:8px 4px" onclick="setDT('+i+')">'+t[0]+' ('+t[1]+')</button>'}).join('')+'</div>';
+var list=idx==0?s.lessons:idx==1?done:rev,hasU=list.some(function(l){return l.u});
+if(!list.length)h+='<div class="empty">'+['ما في دروس بعد.','ما درست أي درس بعد.','ما في دروس للمراجعة بعد.'][idx]+'</div>';
+groupU(list).forEach(function(gp){if(hasU)h+='<div class="sec">'+esc(gp[0])+' ('+gp[1].length+')</div>';gp[1].forEach(function(l){h+=lrow(s,l,tab)})});
+if(idx==0&&(S.cat=='uni'||!curr(s.name)))h+='<div class="sec">إضافة درس</div><div class="row"><input id="nl" placeholder="اسم الدرس"><select id="nd"><option value="1">سهل</option><option value="2" selected>متوسط</option><option value="3">صعب</option></select></div><button class="btn" style="margin-top:8px;width:100%" onclick="addL('+s.id+')">إضافة الدرس</button>';
+return h}
+function viewDetail(){return viewDetail2()}
+function viewDetailOld(){
+var s=find(S.open);if(!s){S.open=null;return viewSubjects()}
+var st=stats(s),g=grade(st.score);
+var h='<button class="back" onclick="openSub(null)">‹ كل المواد</button><h1>'+esc(s.name)+'</h1>'
++'<div class="card"><div class="row sp"><div><div class="score" style="color:'+col(g[1])+'">'+st.score+'</div><div class="mute">التقييم: '+g[0]+'</div></div>'
++'<div class="mute" style="text-align:left">مدروس '+st.done+'<br>ناقص '+(st.n-st.done)+'</div></div>'
++'<div class="bar"><i style="width:'+Math.round(st.pct*100)+'%;background:'+col(g[1])+'"></i></div>'
++'<div class="mute" style="margin-top:8px">٧٠٪ من الدروس المدروسة + ٣٠٪ من المراجعة بوقتها</div></div>';
+var grp=[['تحتاج مراجعة',function(l){return isDue(l)}],['مدروسة',function(l){return l.last!=null&&!isDue(l)}],['ناقصة',function(l){return l.last==null}]];
+grp.forEach(function(gr){var ls=s.lessons.filter(gr[1]);if(!ls.length)return;
+h+='<div class="sec">'+gr[0]+' ('+ls.length+')</div>';
+ls.forEach(function(l){var d=['','سهل','متوسط','صعب'][l.diff];
+h+='<div class="card row sp"><div class="row"><button class="chk'+(l.last!=null?' on':'')+'" onclick="toggleL('+s.id+','+l.id+')" aria-label="تم">'+(l.last!=null?'✓':'')+'</button><div><div'+(l.last!=null&&!isDue(l)?' class="done"':'')+'>'+esc(l.n)+'</div><div class="mute">'+d+'</div></div></div>'
++(l.last==null?studyBtn(s.id,l.id):'')+(isDue(l)?'<button class="btn" onclick="review('+s.id+','+l.id+')">راجعته</button>':'')+'</div>'});
+});
+if(S.cat=='uni'||!curr(s.name))h+='<div class="sec">إضافة درس</div><div class="row"><input id="nl" placeholder="اسم الدرس"><select id="nd"><option value="1">سهل</option><option value="2" selected>متوسط</option><option value="3">صعب</option></select></div><button class="btn" style="margin-top:8px;width:100%" onclick="addL('+s.id+')">إضافة الدرس</button>';
+return h}
+
+function elig(s,st){return s.lessons.filter(function(l){return st?l.last==null:l.last!=null})}
+function openTF(){S.tf={step:'type'};render()}
+function tfType(i){S.tf=i==2?{step:'other'}:{step:'subj',type:i?'review':'study'};render()}
+function tfSubj(id){S.tf.sid=id;S.tf.step='lesson';render()}
+function tfLesson(lid){var f=S.tf,s=find(f.sid),l=lesson(f.sid,lid);S.tasks.push({id:now(),t:(f.type=='study'?'دراسة':'مراجعة')+': '+l.n+' ('+s.name+')',done:false,kind:f.type,sid:f.sid,lid:lid});S.tf=null;render()}
+function tfBack(){var f=S.tf;S.tf=f.step=='lesson'?{step:'subj',type:f.type}:f.step=='type'?null:{step:'type'};render()}
+function viewTF(){var f=S.tf,h='<button class="back" onclick="tfBack()">‹ رجوع</button>';
+if(f.step=='type'){h+='<h1>إضافة مهمة</h1><p class="sub">شو بدك تعمل؟</p>'+[['study','دراسة','ادرس درساً جديداً'],['review','مراجعة','راجع درساً درسته'],['other','مهمة أخرى','رياضة أو أي شي ثاني']].map(function(o,i){return'<button class="card subj" onclick="tfType('+i+')"><b style="font-size:19px">'+o[1]+'</b><div class="mute">'+o[2]+'</div></button>'}).join('');return h}
+if(f.step=='other')return h+'<h1>مهمة أخرى</h1><div class="row"><input id="nt" placeholder="مثال: جري ٢٠ دقيقة"><button class="btn" onclick="addT()">إضافة</button></div>';
+var st=f.type=='study';
+if(f.step=='subj'){h+='<h1>'+(st?'دراسة':'مراجعة')+'</h1><p class="sub">اختر المادة</p>';
+var list=S.subjects.filter(function(s){return elig(s,st).length});
+if(!list.length)h+='<div class="empty">'+(st?'ما في دروس ناقصة بأي مادة.':'ما في دروس مدروسة بعد.')+'<br>أضف دروساً من شاشة موادي.</div>';
+list.forEach(function(s){h+='<button class="card subj" onclick="tfSubj('+s.id+')"><div class="row sp"><b>'+esc(s.name)+'</b><span class="mute">'+elig(s,st).length+(st?' ناقصة':' مدروسة')+'</span></div></button>'});return h}
+var s=find(f.sid);h+='<h1>'+esc(s.name)+'</h1><p class="sub">اختر الدرس</p>';
+elig(s,st).forEach(function(l){h+='<button class="card subj" onclick="tfLesson('+l.id+')"><div class="row sp"><span>'+esc(l.n)+'</span>'+(!st&&isDue(l)?'<span class="badge mid">حان وقتها</span>':'')+'</div></button>'});return h}
+function setTT(i){S.tt=i?'done':'todo';render()}
+function trow(t){return'<div class="card row sp"><div class="row"><button class="chk'+(t.done?' on':'')+'" onclick="toggleT('+t.id+')" aria-label="تم">'+(t.done?'✓':'')+'</button><span class="'+(t.done?'done':'')+'">'+esc(t.t)+'</span></div><button class="back" style="margin:0;color:var(--mute)" onclick="delT('+t.id+')" aria-label="حذف">✕</button></div>'}
+function viewToday2(){
+var td=S.tasks.filter(function(t){return!t.done}),dn=S.tasks.filter(function(t){return t.done}),i=S.tt=='done'?1:0;
+var h='<h1>مهام اليوم</h1><p class="sub">خطط ليومك: دراسة، رياضة، أي شيء</p>';
+h+='<div class="row" style="margin:0 0 12px;gap:6px">'+[['لم ينجز',td.length],['أنجز',dn.length]].map(function(t,j){return'<button class="btn'+(i==j?'':' ghost')+'" style="flex:1;padding:8px 4px" onclick="setTT('+j+')">'+t[0]+' ('+t[1]+')</button>'}).join('')+'</div>';
+var list=i?dn:td;
+if(!list.length)h+='<div class="empty">'+(i?'ما أنجرت شي بعد.':(S.tasks.length?'أنجزت كل مهامك 🎉':'يومك فاضي. أضف أول مهمة.'))+'</div>';
+list.forEach(function(t){h+=trow(t)});
+h+='<button class="btn big2" style="margin-top:12px" onclick="openTF()">+ إضافة مهمة</button>';
+return h}
+function viewToday(){if(S.tf)return viewTF();return viewToday2()}
+function viewTodayOld(){
+if(S.tf)return viewTF();
+var h='<h1>مهام اليوم</h1><p class="sub">خطط ليومك: دراسة، رياضة، أي شيء</p>';
+if(!S.tasks.length)h+='<div class="empty">يومك فاضي. أضف أول مهمة.</div>';
+S.tasks.forEach(function(t){h+='<div class="card row sp"><div class="row"><button class="chk'+(t.done?' on':'')+'" onclick="toggleT('+t.id+')" aria-label="تم">'+(t.done?'✓':'')+'</button><span class="'+(t.done?'done':'')+'">'+esc(t.t)+'</span></div><button class="back" style="margin:0;color:var(--mute)" onclick="delT('+t.id+')" aria-label="حذف">✕</button></div>'});
+var dn=S.tasks.filter(function(t){return t.done}).length;
+if(S.tasks.length)h+='<div class="mute">أنجزت '+dn+' من '+S.tasks.length+'</div>';
+h+='<button class="btn big2" style="margin-top:12px" onclick="openTF()">+ إضافة مهمة</button>';
+return h}
+
+function viewReview(){
+var items=[];S.subjects.forEach(function(s){s.lessons.forEach(function(l){if(isDue(l))items.push([s,l])})});
+var h='<h1>المراجعة</h1><p class="sub">الدروس اللي حان وقت مراجعتها</p>';
+if(!items.length)h+='<div class="empty">ما في شي للمراجعة الآن 🎉<br>سنذكرك لما يحين موعد درس جديد.</div>';
+items.forEach(function(p){var s=p[0],l=p[1];h+='<div class="card row sp"><div><div>'+esc(l.n)+'</div><div class="mute">'+esc(s.name)+(isLate(l)?' · متأخر':'')+'</div></div>'+reviewBtn(s.id,l.id)+'</div>'});
+return h}
+
+function dayStart(t){var d=new Date(t);d.setHours(0,0,0,0);return d.getTime()}
+function cnt(k,a,b){return S.log.filter(function(e){return e.k==k&&e.t>=a&&e.t<b}).length}
+function viewStats(){
+var tot=0,done=0,late=0,due=0,sum=0,names=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+S.subjects.forEach(function(s){var st=stats(s);tot+=st.n;done+=st.done;due+=st.due;sum+=st.score;s.lessons.forEach(function(l){if(l.last!=null&&isLate(l))late++})});
+var sc=S.subjects.length?Math.round(sum/S.subjects.length):0,g=grade(sc),ontime=done?Math.round((done-late)/done*100):0;
+var revN=S.log.filter(function(e){return e.k=='review'}).length,today=dayStart(now());
+var fm=0,fw=0,ft=0,fs=0;S.log.forEach(function(e){if(e.k=='focus'){fm+=e.min;fs++;if(e.t>=today-6*DAY)fw+=e.min;if(e.t>=today)ft+=e.min}});
+function hf(m){var h=Math.floor(m/60),r=m%60;return h?h+' س'+(r?' '+r+' د':''):r+' د'}
+var days=[],mx=1;for(var i=6;i>=0;i--){var a=today-i*DAY,b=a+DAY,s1=cnt('study',a,b),r1=cnt('review',a,b);mx=Math.max(mx,s1+r1);days.push([names[new Date(a).getDay()],s1,r1])}
+var streak=0,d=today;if(!cnt('study',d,d+DAY)&&!cnt('review',d,d+DAY))d-=DAY;while(cnt('study',d,d+DAY)+cnt('review',d,d+DAY)>0){streak++;d-=DAY}
+var h='<h1>الإحصائيات</h1><p class="sub">كيف تسير دراستك ومراجعتك</p>'
++'<div class="card"><div class="row sp"><div><div class="mute">التقييم العام</div><div class="score" style="color:'+col(g[1])+'">'+sc+'</div></div><span class="badge '+g[1]+'">'+g[0]+'</span></div><div class="bar"><i style="width:'+sc+'%;background:'+col(g[1])+'"></i></div></div>'
++'<h2>الدراسة</h2><div class="grid"><div class="card"><div class="big">'+done+'/'+tot+'</div><div class="mute">دروس مدروسة</div></div><div class="card"><div class="big">'+(tot?Math.round(done/tot*100):0)+'٪</div><div class="mute">نسبة الإنجاز</div></div>'
++'<div class="card"><div class="big">'+(tot-done)+'</div><div class="mute">دروس ناقصة</div></div><div class="card"><div class="big">'+streak+'</div><div class="mute">أيام متواصلة</div></div></div><h2>ساعات الدراسة</h2><div class="grid"><div class="card"><div class="big">'+hf(fm)+'</div><div class="mute">إجمالي ساعات الدراسة</div></div><div class="card"><div class="big">'+hf(fw)+'</div><div class="mute">آخر ٧ أيام</div></div><div class="card"><div class="big">'+hf(ft)+'</div><div class="mute">اليوم</div></div><div class="card"><div class="big">'+fs+'</div><div class="mute">جلسات تركيز</div></div></div><div class="mute" style="margin-bottom:6px">تُحسب الساعات من جلسات التركيز في المؤقت</div>'
++'<h2>المراجعة</h2><div class="grid"><div class="card"><div class="big">'+revN+'</div><div class="mute">مراجعات منجزة</div></div><div class="card"><div class="big">'+ontime+'٪</div><div class="mute">مراجعة بوقتها</div></div>'
++'<div class="card"><div class="big">'+due+'</div><div class="mute">تنتظر المراجعة</div></div><div class="card"><div class="big" style="color:'+(late?col('bad'):'inherit')+'">'+late+'</div><div class="mute">متأخرة</div></div></div>'
++'<h2>آخر ٧ أيام</h2><div class="card"><div class="chart">'+days.map(function(x){return'<div><span class="stk"><i style="height:'+Math.round(x[2]/mx*70)+'px;background:var(--mid)"></i><i style="height:'+Math.round(x[1]/mx*70)+'px;background:var(--acc)"></i></span>'+x[0]+'</div>'}).join('')+'</div><div class="mute" style="margin-top:8px"><span class="dot" style="background:var(--acc)"></span>دراسة <span class="dot" style="background:var(--mid);margin-right:12px"></span>مراجعة</div></div>'
++'<h2>تقييم كل مادة</h2>';
+S.subjects.slice().sort(function(a,b){return stats(b).score-stats(a).score}).forEach(function(s){var st=stats(s),gg=grade(st.score);h+='<div class="card"><div class="row sp"><b>'+esc(s.name)+'</b><span class="badge '+gg[1]+'">'+gg[0]+' · '+st.score+'</span></div><div class="bar"><i style="width:'+st.score+'%;background:'+col(gg[1])+'"></i></div></div>'});
+return h}
+var P={m:'focus',len:{focus:25,break:5},end:null,left:25*60000,sid:'',msg:''};
+function fmt(ms){var m=Math.floor(ms/60000),s=Math.floor(ms%60000/1000);return(m<10?'0':'')+m+':'+(s<10?'0':'')+s}
+function paint(){var t=document.getElementById('pt');if(!t)return;t.textContent=fmt(P.left);var b=document.getElementById('pb');if(b)b.style.width=(100-P.left/(P.len[P.m]*60000)*100)+'%'}
+function finish(){P.end=null;if(P.m=='focus'){S.log.push({t:now(),k:'focus',min:P.len.focus,sid:P.sid});P.msg='أحسنت! أنهيت جلسة تركيز. بدأت الاستراحة تلقائياً.';P.m='break'}else{P.msg='انتهت الاستراحة. جاهز لجلسة جديدة؟';P.m='focus'}P.left=P.len[P.m]*60000;if(P.m=='break')P.end=now()+P.left;try{navigator.vibrate&&navigator.vibrate([300,150,300])}catch(e){}render()}
+setInterval(function(){if(!P.end)return;var l=P.end-now();if(l<=0){finish();return}P.left=l;paint()},500);
+function setMode(m){P.end=null;P.m=m;P.left=P.len[m]*60000;P.msg='';render()}
+function setLen(n){if(P.end)return;P.len[P.m]=n;P.left=n*60000;render()}
+function resetPomo(){P.end=null;P.left=P.len[P.m]*60000;P.msg='';render()}
+function togglePomo(){P.msg='';if(P.end){P.left=P.end-now();P.end=null}else{var sel=document.getElementById('ps');if(sel)P.sid=sel.value;P.end=now()+P.left}render()}
+function viewPomo(){
+var f=P.m=='focus',tm=dayStart(now()),ses=S.log.filter(function(e){return e.k=='focus'&&e.t>=tm}),mins=ses.reduce(function(a,e){return a+e.min},0);
+var h='<h1>المؤقت</h1><p class="sub">ادرس بتركيز كامل، ثم خذ استراحة قصيرة</p>';
+if(P.msg)h+='<div class="card badge good" style="display:block;border-radius:14px;padding:12px 14px">'+P.msg+'</div>';
+h+='<div class="row" style="margin-bottom:10px">'+[['focus','تركيز'],['break','استراحة']].map(function(x){return'<button class="btn'+(P.m==x[0]?'':' ghost')+'" style="flex:1" onclick="setMode(\''+x[0]+'\')">'+x[1]+'</button>'}).join('')+'</div>';
+h+='<div class="card" style="text-align:center"><div id="pt" class="timer">'+fmt(P.left)+'</div><div class="bar"><i id="pb" style="width:'+(100-P.left/(P.len[P.m]*60000)*100)+'%;background:'+(f?'var(--acc)':'var(--mid)')+'"></i></div>';
+h+='<div class="row" style="justify-content:center;margin:14px 0">'+(f?[15,25,50]:[5,10]).map(function(n){return'<button class="btn chip'+(P.len[P.m]==n?'':' ghost')+'" onclick="setLen('+n+')">'+n+' دقيقة</button>'}).join('')+'</div>';
+if(f){h+='<select id="ps" style="width:100%;margin-bottom:12px"'+(P.end?' disabled':'')+'><option value="">بدون مادة محددة</option>'+S.subjects.map(function(s){return'<option value="'+s.id+'"'+(P.sid==s.id?' selected':'')+'>'+esc(s.name)+'</option>'}).join('')+'</select>'}
+h+='<button class="btn big2" onclick="togglePomo()">'+(P.end?'إيقاف مؤقت':'ابدأ')+'</button><button class="back" style="margin:10px 0 0" onclick="resetPomo()">إعادة</button></div>';
+h+='<div class="grid"><div class="card"><div class="big">'+ses.length+'</div><div class="mute">جلسات اليوم</div></div><div class="card"><div class="big">'+mins+'</div><div class="mute">دقائق تركيز اليوم</div></div></div>';
+return h}
+var CATS=[['uni','جامعة','أضف موادك بنفسك'],['bac','بكالوريا','علمي أو أدبي'],['g9','تاسع','الشهادة الأساسية']];
+var PRESET={g9:['اللغة العربية','الرياضيات','الفيزياء','الكيمياء','علوم الحياة والأرض','اللغة الإنجليزية','اللغة الفرنسية','التربية الدينية','التاريخ','الجغرافيا'],bacS:['اللغة العربية','الرياضيات','الفيزياء','الكيمياء','علوم الحياة','اللغة الإنجليزية','اللغة الفرنسية','التربية الدينية'],bacL:['اللغة العربية','التاريخ','الجغرافيا','الفلسفة وعلم الاجتماع','اللغة الإنجليزية','اللغة الفرنسية','التربية الدينية']};
+var CURR={g9:{},bacS:{'الرياضيات':{'الفصل الأول - تذكرة بالمتتاليات والإثبات بالتدريج':['عموميات عن المتتاليات','البرهان بالتدريج أو بالاستقراء الرياضي'],'الفصل الأول - التوابع: النهايات والاستمرار':['نهاية تابع عند اللانهاية','نهاية تابع عند عدد حقيقي','العمليات على النهايات','مبرهنات المقارنة','نهاية تابع مركب','المقارب المائل','الاستمرار','التوابع المستمرة وحل المعادلات'],'الفصل الأول - التوابع: الاشتقاق':['تعاريف (تذكرة)','مشتقات بعض التوابع المألوفة (تذكرة)','تطبيقات الاشتقاق','اشتقاق تابع مركب','المشتقات من مراتب عليا'],'الفصل الأول - نهاية متتالية':['نهاية متتالية: تذكرة','مبرهنات تخص النهايات','تقارب المتتاليات المطردة','متتاليات متجاورة'],'الفصل الأول - التابع اللوغاريتمي النيبري':['التابع اللوغاريتمي النيبري','لوغاريتم جداء ضرب','دراسة التابع اللوغاريتمي ln','مشتق التابع المركب ln∘u','نهايات مهمة تتعلق بالتابع اللوغاريتمي'],'الفصل الأول - التابع الأسّي':['التابع الأسّي النيبري','خواص التابع الأسّي','دراسة التابع الأسّي','نهايات مهمة تتعلق بالتابع الأسّي','دراسة توابع من النمط x ↦ a^x (a > 0)','معادلات تفاضلية بسيطة'],'الفصل الأول - التكامل والتوابع الأصلية':['التوابع الأصلية','بعض قواعد حساب التوابع الأصلية','التكامل المحدد وخواصه','التكامل المحدد وحساب المساحة'],'الفصل الثاني - الأشعة في الفراغ':['عموميات','الارتباط الخطي لثلاثة أشعة','المعلم في الفراغ','المسافة في الفراغ','مركز الأبعاد المتناسبة في الفراغ'],'الفصل الثاني - الجداء السلمي في الفراغ':['الجداء السلمي في المستوي (تذكرة)','الجداء السلمي في الفراغ','التعامد في الفراغ','المعادلة الديكارتية لمستو'],'الفصل الثاني - المستقيمات والمستويات في الفراغ':['المستقيم والمستوي بصفتهما مراكز أبعاد متناسبة','التمثيلات الوسيطية','تقاطع مستقيمات ومستويات','تقاطع ثلاثة مستويات'],'الفصل الثاني - الأعداد العقدية':['مجموعة الأعداد العقدية','مرافق عدد عقدي','الشكل المثلثي لعدد عقدي','طويلة عدد عقدي وزاويته','الشكل الأسي لعدد عقدي','المعادلات من الدرجة الثانية ذات الأمثال الحقيقية'],'الفصل الثاني - تطبيقات الأعداد العقدية في الهندسة':['تمثيل الأشعة بأعداد عقدية','استعمال العدد العقدي الممثل لشعاع','الكتابة العقدية للتحويلات الهندسية'],'الفصل الثاني - التحليل التوافقي':['إنشاء قوائم من عناصر مجموعة','التوافيق','خواص عدد التوافيق ومنشور ذي الحدين'],'الفصل الثاني - الاحتمالات':['الاحتمالات المشروطة','المتحولات العشوائية','الاستقلال الاحتمالي لمتحولين عشوائيين','المتحولات العشوائية الحدانية']},'الفيزياء':{'الوحدة الأولى: الحركة والتحريك':['الحركة التوافقية البسيطة','الاهتزازات الجيبية الدورانية: نواس الفتل غير المتخامد','الاهتزازات غير التوافقية: النواس الثقلي غير المتخامد','ميكانيك الموائع','النسبية الخاصة'],'الوحدة الثانية: الكهرباء والمغناطيسية':['المغناطيسية','فعل الحقل المغناطيسي في التيار الكهربائي','التحريض الكهرطيسي','الدارات المهتزة والتيارات عالية التواتر','التيار المتناوب الجيبي','المحولات الكهربائية'],'الوحدة الثالثة: الأمواج المستقرة':['الأمواج المستقرة العرضية','الأمواج المستقرة الطولية'],'الوحدة الرابعة: الإلكترونيات والجسم الصلب':['النماذج الذرية والطيوف','انتزاع الإلكترونات وتسريعها','الأشعة المهبطية','الفعل الكهرحراري','نظرية الكم والفعل الكهرضوئي','الأشعة السينية X-Ray','أشعة الليزر'],'الوحدة الخامسة: الفيزياء الفلكية':['الفيزياء الفلكية']},'الكيمياء':{'الوحدة الأولى: الكيمياء النووية':['الكيمياء النووية'],'الوحدة الثانية: الغازات':['الغازات'],'الوحدة الثالثة: حركية التفاعلات الكيميائية':['سرعة التفاعل الكيميائي','التوازن الكيميائي'],'الوحدة الرابعة: الكيمياء التحليلية':['الحموض والأسس','المحاليل المائية للأملاح','المعايرة الحجمية'],'الوحدة الخامسة: الكيمياء العضوية':['الأغوال','الألدهيدات والكيتونات','الحموض العضوية (الكربوكسيلية)','مشتقات الحموض الكربوكسيلية','الأمينات']},'علوم الحياة':{'الوحدة الأولى':['الجهاز العصبي','النسيج العصبي','الجهاز العصبي المحيطي','خواص الأعصاب','الظواهر الكهربائية في الخلايا الحية','النقل في الأعصاب','وظائف الجهاز العصبي','الفعل المنعكس','بعض أمراض الجهاز العصبي','مفهوم المستقبلات الحسية','مستقبلات الجلد','المستقبلات الكيميائية','المستقبلات الصوتية','مستقبلات التوازن','المستقبلات الضوئية','التنسيق الهرموني','الغدة النخامية','الغدة الدرقية','آليات السيطرة على إفراز الغدد الصم','التنسيق الكيميائي في النبات'],'الوحدة الثانية':['تكاثر الفيروسات','التكاثر عند الأحياء','التقانات الحيوية','الخلايا الجذعية','تكاثر الجراثيم والفطريات','التكاثر الجنسي لدى عاريات البذور','التكاثر الجنسي لدى مغلفات البذور','منشأ جهاز التكاثر لدى الإنسان','جهاز التكاثر الذكري','تشكل النطاف','الهرمونات الجنسية الذكرية','جهاز التكاثر الأنثوي','الدورة الجنسية','التنامي الجنيني (الإلقاح)','التنامي الجنيني (التعشيش والحمل)','الولادة والإرضاع','الصحة الإنجابية'],'الوحدة الثالثة':['تجارب مندل في الوراثة','التهجين الاختباري','تآثر المورثات وتعديلات النسب المندلية في الهجونة','المورثات المتتامة','الحجب الراجح','الارتباط والعبور','تحديد الجنس لدى الأحياء','الوراثة والجنس','الوراثة عند الإنسان','الطفرات','الهندسة الوراثية']},'اللغة العربية':{'الوحدة الأولى: قضايا وطنية وقومية':['أدب القضايا الوطنية والقومية (قراءة تمهيدية)','عرس المجد - عمر أبو ريشة','الجسر - محمود درويش'],'الوحدة الثانية: الغربة والاغتراب في الأدب المهجري':['الأدب المهجري (قراءة تمهيدية)','وطني - جورج صيدح','المهاجر - نسيب عريضة','الغاب - جبران خليل جبران','رسالة الشرق المتجدد - ميخائيل نعيمة (مطالعة)'],'الوحدة الثالثة: فن الرواية':['فن الرواية (قراءة تمهيدية)','المصابيح الزرق - حنا مينة','دمشق يا بسمة الحزن - ألفة الإدلبي','عوامل تجديد الرواية العربية - د. نضال الصالح (مطالعة)'],'الوحدة الرابعة: ظواهر وجدانية':['الشعر الوجداني (قراءة تمهيدية)','الوطن - عدنان مردم بك','لوعة الفراق - بدر الدين الحامد','الأمير الدمشقي - نزار قباني','مهمة الشعر - د. نعيم اليافي (مطالعة)'],'الوحدة الخامسة: أدب القضايا الاجتماعية':['الأدب الاجتماعي (قراءة تمهيدية)','قوة العلم - محمود سامي البارودي','مروءة وسخاء - خير الدين الزركلي','رسالة حب - سلمى الحفار الكزبري (مطالعة)'],'قواعد اللغة':['قواعد اللغة']},'اللغة الإنجليزية':{'Module 1: Learning for Life':['Unit 1: Life Choices','Unit 2: Success'],'Module 2: Sciences':['Unit 3: Medicine','Unit 4: Engineering'],'Module 3: Politics':['Unit 5: Civil Rights','Unit 6: United Nations'],'Module 4: Biology':['Unit 7: Microorganism','Unit 8: Facts about Human Body'],'Module 5: Culture':['Unit 9: Citizenship','Unit 10: Culture Shock'],'Module 6: Technology':['Unit 11: Artificial Intelligence','Unit 12: Digital Literacy']},'اللغة الفرنسية':{'Les unités':['Unité 1: On fête ensemble …','Unité 2: Chacun pour tous','Unité 3: Le salon, un espace culturel','Unité 4: La femme dans la littérature','Unité 5: L’intelligence artificielle','Unité 6: La conquête de l’espace']},'التربية الدينية':{'وحدة القرآن الكريم (التلاوة)':['نعم الله تعالى مدعاة للتوحيد والشكر','الله وحده هو الخالق المتصرف','الله وحده القادر المعبود','من مظاهر قدرة الله تعالى وعظيم فضله','دلائل عظمة الخالق عز وجل','مبادئ وقيم خالدة','أسس الدعوة إلى الله تعالى'],'وحدة القرآن الكريم (التفسير والاستحفاظ)':['صيانة الحقوق وتوثيق العقود','إيمان ودعاء','القرآن الكريم وعظيم قدرة الله تعالى','سعة علم الله تعالى وكمال قدرته'],'وحدة الحديث النبوي الشريف':['بيعة صادقة','الإيمان قوة وعمل','حكم القاضي لا يحل الحرام','مكانة الشهيد وعظيم أجره','عموم المسؤولية','توجيه نبوي حكيم'],'وحدة التربية الإنسانية':['بناء الحضارة في الإسلام','مقومات الحضارة الإنسانية في الإسلام','مظاهر الحضارة الإسلامية'],'وحدة التربية الأسرية والاجتماعية':['نظام الأسرة في الإسلام','المحرمات من النساء في الزواج','الخطبة والأسس الإسلامية للزواج','عقد الزواج','حقوق الزوجين','الطلاق'],'وحدة التربية الاقتصادية والمالية':['نظام المال في الإسلام','قيود الملكية (الفردية - الجماعية)'],'وحدة العلاقات الدولية':['أسس العلاقات الدولية في الإسلام','الجهاد في الإسلام','من آداب الجهاد وأحكامه'],'وحدة السيرة النبوية والأعلام':['هدي النبي ﷺ في القيادة','أم سليم بنت ملحان','الإمام جعفر الصادق']}},bacL:{}};
+function curr(name){var k=S.key||(S.cat=='bac'?(S.catName&&S.catName.indexOf('أدبي')>=0?'bacL':'bacS'):S.cat);var own=CURR[k]&&CURR[k][name],c=own||(S.cat=='uni'?null:DL[name]);if(!c)return null;if(Array.isArray(c)){var h=Math.ceil(c.length/2);return c.map(function(n,i){return{n:n,u:own?'':(i<h?'الوحدة الأولى':'الوحدة الثانية')}})}var o=[];Object.keys(c).forEach(function(u){c[u].forEach(function(n){o.push({n:n,u:u})})});return o}
+function syncCurr(){if(S.cat=='uni')return;S.subjects.forEach(function(s){var c=curr(s.name);if(!c)return;s.lessons=s.lessons.filter(function(l){return l.last!=null||c.some(function(x){return x.n==l.n})});c.forEach(function(x){var ex=s.lessons.filter(function(l){return l.n==x.n})[0];if(ex){ex.u=x.u}else{S.nid=(S.nid||now())+1;s.lessons.push({id:S.nid,n:x.n,u:x.u,diff:2,last:null,step:0})}})})}
+function hasTask(sid,lid){return S.tasks.some(function(t){return t.lid==lid&&t.sid==sid&&t.kind=='study'&&!t.done})}
+function studyBtn(sid,lid){return hasTask(sid,lid)?'<span class="badge good">في مهامك</span>':'<button class="btn" onclick="addStudy('+sid+','+lid+')">دراسة</button>'}
+function addStudy(sid,lid){var s=find(sid),l=lesson(sid,lid);S.tasks.push({id:now(),t:'دراسة: '+l.n+' ('+s.name+')',done:false,kind:'study',sid:sid,lid:lid});render()}
+function applyCat(c,list,label,key){S.cat=c;S.key=key||c;S.catName=label;S.onb=false;S.step=null;S.tab='subjects';S.open=null;S.tasks=[];S.log=[];P.sid='';S.subjects=list.map(function(n,i){var ls=curr(n)||[];return{id:now()+i,name:n,lessons:ls.map(function(x,j){return{id:now()+i*1000+j+1,n:x.n,u:x.u,diff:2,last:null,step:0}})}});render()}
+function pickCat(i){var c=CATS[i][0];if(c=='bac'){S.step='bac';render();return}applyCat(c,PRESET[c]||[],c=='uni'?'طالب جامعة':'طالب تاسع')}
+function pickBranch(j){applyCat('bac',j?PRESET.bacL:PRESET.bacS,j?'بكالوريا أدبي':'بكالوريا علمي',j?'bacL':'bacS')}
+function backOnb(){S.step=null;render()}
+function cancelOnb(){S.onb=false;S.step=null;render()}
+function changeCat(){S.onb=true;S.step=null;render()}
+function viewOnb(){
+if(S.step=='bac')return'<button class="back" onclick="backOnb()">‹ رجوع</button><h1>أي فرع؟</h1><p class="sub">منجهز لك مواد الفرع، وبتقدر تعدّلها بعدين</p><button class="card subj" onclick="pickBranch(0)"><b>علمي</b></button><button class="card subj" onclick="pickBranch(1)"><b>أدبي</b></button>';
+var h='<h1>أهلاً فيك 👋</h1><p class="sub">شو مرحلتك الدراسية؟ منجهز لك التطبيق على قدها</p>';
+CATS.forEach(function(c,i){h+='<button class="card subj" onclick="pickCat('+i+')"><b style="font-size:20px">'+c[1]+'</b><div class="mute">'+c[2]+'</div></button>'});
+if(S.cat)h+='<p class="mute">اختيار مرحلة جديدة بيستبدل موادك الحالية.</p><button class="back" onclick="cancelOnb()">متابعة بنفس المرحلة</button>';
+return h}
+var AK='mothakarati_acct',ACCT=null;try{ACCT=JSON.parse(localStorage.getItem(AK))}catch(e){}
+var AM=ACCT?'login':'signup';
+var GOV=['دمشق','ريف دمشق','حلب','حمص','حماة','اللاذقية','طرطوس','إدلب','دير الزور','الرقة','الحسكة','درعا','السويداء','القنيطرة'];
+async function hashPw(s,p){try{var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s+p));return Array.from(new Uint8Array(b)).map(function(x){return('0'+x.toString(16)).slice(-2)}).join('')}catch(e){var h=5381,t=s+p;for(var i=0;i<t.length;i++)h=(h*33)^t.charCodeAt(i);return String(h>>>0)}}
+function v(id){var e=document.getElementById(id);return e?e.value.trim():''}
+function nd(s){return s.replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d)})}
+function showErr(m){var e=document.getElementById('err');if(e){e.textContent=m;e.style.display='block'}}
+function setAM(n){AM=n?'signup':'login';render()}
+async function doSignup(){
+var fn=v('fn'),ln=v('ln'),em=v('em').toLowerCase(),ph=nd(v('ph')).replace(/[\s-]/g,''),gv=v('gv'),pw=document.getElementById('pw').value,pw2=document.getElementById('pw2').value;
+if(!fn||!ln)return showErr('اكتب الاسم والكنية');
+if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))return showErr('الإيميل غير صحيح');
+if(!/^\+?\d{8,15}$/.test(ph))return showErr('رقم الهاتف غير صحيح');
+if(!gv)return showErr('اختر المحافظة');
+if(pw.length<6)return showErr('كلمة السر لازم تكون ٦ أحرف على الأقل');
+if(pw!==pw2)return showErr('كلمتا السر غير متطابقتين');
+var salt=String(now())+Math.random();ACCT={email:em,salt:salt,hash:await hashPw(salt,pw),first:fn,last:ln,phone:ph,gov:gv};
+try{localStorage.setItem(AK,JSON.stringify(ACCT))}catch(e){}
+S.in=true;S.cat=null;S.onb=false;S.step=null;render()}
+async function doLogin(){
+var em=v('em').toLowerCase(),pw=document.getElementById('pw').value;
+if(!ACCT||em!==ACCT.email||await hashPw(ACCT.salt,pw)!==ACCT.hash)return showErr('الإيميل أو كلمة السر غير صحيحة');
+S.in=true;render()}
+function logout(){P.end=null;S.in=false;S.tab='subjects';S.onb=true;S.step=null;S.open=null;AM='login';render()}
+var AUTH=false;
+function viewAuth(){
+var su=AM=='signup',ltr='dir="ltr" style="text-align:right"';
+var h='<h1>'+(su?'إنشاء حساب':'تسجيل الدخول')+'</h1><p class="sub">'+(su?'أدخل بياناتك لتبدأ':'أهلاً بعودتك')+'</p><div class="card" style="display:flex;flex-direction:column;gap:10px">';
+if(su)h+='<div class="row"><input id="fn" placeholder="الاسم" autocomplete="given-name"><input id="ln" placeholder="الكنية" autocomplete="family-name"></div>';
+h+='<input id="em" type="email" placeholder="الإيميل" '+ltr+' autocomplete="email">';
+if(su)h+='<input id="ph" type="tel" placeholder="رقم الهاتف" '+ltr+' autocomplete="tel"><select id="gv"><option value="">المحافظة</option>'+GOV.map(function(g){return'<option>'+g+'</option>'}).join('')+'</select>';
+h+='<input id="pw" type="password" placeholder="كلمة السر" '+ltr+' autocomplete="'+(su?'new-password':'current-password')+'">';
+if(su)h+='<input id="pw2" type="password" placeholder="تأكيد كلمة السر" '+ltr+' autocomplete="new-password">';
+h+='<div id="err" class="badge bad" style="display:none;border-radius:10px;padding:8px 12px;white-space:normal"></div><button class="btn big2" onclick="'+(su?'doSignup()':'doLogin()')+'">'+(su?'إنشاء الحساب':'دخول')+'</button></div>';
+if(su&&ACCT)h+='<p class="mute">إنشاء حساب جديد بيستبدل الحساب الحالي على هذا الجهاز.</p><button class="back" onclick="setAM(0)">عندي حساب، تسجيل الدخول</button>';
+if(!su)h+='<button class="back" onclick="setAM(1)">ما عندي حساب، إنشاء حساب</button>';
+return h}
+function openProfile(){S.prev=S.tab;S.tab='profile';S.open=null;render();scrollTo(0,0)}
+function closeProfile(){S.tab=S.prev&&S.prev!='profile'?S.prev:'subjects';render()}
+function topbar(){if(S.tab=='profile')return'';var a=ACCT||{};return'<div class="topbar"><b style="font-size:18px">مذاكرتي</b><button class="avatar" onclick="openProfile()" aria-label="الملف الشخصي">'+esc((a.first||'ط').charAt(0))+'</button></div>'}
+function irow(k,val,l){return'<div class="row sp" style="padding:9px 0;border-bottom:1px solid var(--line)"><span class="mute">'+k+'</span><span'+(l?' dir="ltr"':'')+'>'+esc(val||'-')+'</span></div>'}
+var DL={'اللغة العربية':['النحو: الجملة الاسمية','البلاغة','النصوص الأدبية','الإملاء'],'الرياضيات':['النهايات','الاشتقاق','التكامل','الأعداد المركبة'],'الفيزياء':['الحركة','القوى','الطاقة','الكهرباء'],'الكيمياء':['الجدول الدوري','الروابط الكيميائية','التفاعلات','الكيمياء العضوية'],'علوم الحياة':['الخلية','الوراثة','الجهاز الهضمي','التنفس'],'علوم الحياة والأرض':['الخلية','الوراثة','الصخور','البراكين'],'اللغة الإنجليزية':['Grammar: Tenses','Vocabulary','Reading','Writing'],'اللغة الفرنسية':['Les verbes','Le vocabulaire','La lecture','La rédaction'],'التربية الدينية':['الوحدة الأولى','الوحدة الثانية','الوحدة الثالثة','الوحدة الرابعة'],'التاريخ':['العصر القديم','العصر الوسيط','العصر الحديث','العصر المعاصر'],'الجغرافيا':['المناخ','التضاريس','السكان','الموارد'],'الفلسفة وعلم الاجتماع':['مدخل إلى الفلسفة','المنطق','علم النفس','علم الاجتماع'],'برمجة':['المتحولات','الشروط','الحلقات','الدوال'],'فيزياء عامة':['الميكانيك','الحرارة','الموجات','الضوء']};
+function demoFill(){
+if(!S.subjects.length)['برمجة','رياضيات','فيزياء عامة'].forEach(function(n,i){S.subjects.push({id:now()+i,name:n,lessons:[]})});
+S.log=[];S.tasks=[];var t0=now(),k=0,ago=[1,3,6,10],hr=3600000;
+S.subjects.forEach(function(s,si){var nm=DL[s.name]||['الدرس الأول','الدرس الثاني','الدرس الثالث','الدرس الرابع'];
+s.lessons=nm.map(function(n,i){k++;var l={id:t0+k,n:n,diff:(i+si)%3+1,last:null,step:0};
+if((i+si)%4!=3){l.step=(i+si)%3;l.last=t0-ago[(i*3+si)%4]*DAY;S.log.push({t:t0-((i+si)%7)*DAY-hr,k:'study'});for(var j=0;j<l.step;j++)S.log.push({t:t0-((i+si+j+1)%7)*DAY-2*hr,k:'review'})}
+return l})});
+for(var d=0;d<7;d++){if(d==4)continue;S.log.push({t:t0-d*DAY-hr,k:'focus',min:d%2?50:25});if(d<3)S.log.push({t:t0-d*DAY-4*hr,k:'focus',min:25})}
+var sl=null,rl=null;S.subjects.forEach(function(s){s.lessons.forEach(function(l){if(!sl&&l.last==null)sl=[s,l];if(!rl&&l.last!=null)rl=[s,l]})});
+S.tasks.push({id:t0,t:'جري ٢٠ دقيقة',done:true,kind:'other'});
+if(sl)S.tasks.push({id:t0+1,t:'دراسة: '+sl[1].n+' ('+sl[0].name+')',done:false,kind:'study',sid:sl[0].id,lid:sl[1].id});
+if(rl)S.tasks.push({id:t0+2,t:'مراجعة: '+rl[1].n+' ('+rl[0].name+')',done:false,kind:'review',sid:rl[0].id,lid:rl[1].id});
+S.tf=null;S.open=null;S.tab='subjects';render();scrollTo(0,0)}
+function viewProfile(){var a=ACCT||{};
+return'<button class="back" onclick="closeProfile()">‹ رجوع</button><h1>ملفي الشخصي</h1>'
++'<div class="card row"><div class="avatar" style="width:54px;height:54px;font-size:22px;flex:none">'+esc((a.first||'ط').charAt(0))+'</div><div><b style="font-size:18px">'+esc(a.first?a.first+' '+a.last:'طالب')+'</b><div class="mute">'+esc(S.catName||'')+'</div></div></div>'
++(AUTH?'<h2>معلوماتي</h2><div class="card" style="padding-top:4px;padding-bottom:4px">'+irow('الاسم',a.first)+irow('الكنية',a.last)+irow('الإيميل',a.email,1)+irow('رقم الهاتف',a.phone,1)+irow('المحافظة',a.gov)+'</div>':'')
++'<h2>المرحلة</h2><div class="card"><b>'+esc(S.catName||'')+'</b><div class="mute" style="margin-top:4px">'+(AUTH?'المرحلة مثبتة. لتغييرها سجّل خروج ثم اختر مرحلة جديدة عند الدخول.':'<button class="btn ghost" style="margin-top:8px" onclick="changeCat()">تغيير المرحلة</button>')+'</div></div>'+'<button class="btn ghost big2" style="margin-top:8px" onclick="demoFill()">تعبئة بيانات تجريبية</button><div class="mute" style="margin:6px 0 0">بيملأ التطبيق بدروس ومهام وإحصائيات للتجربة، وبيستبدل دروسك ومهامك الحالية.</div>'
++(AUTH?'<button class="btn ghost big2" style="color:var(--bad);border-color:var(--bad);margin-top:8px" onclick="logout()">تسجيل الخروج من الحساب</button>':'')}
+function paint(){var t=document.getElementById('pt');if(!t)return;t.textContent=fmt(P.left);var r=document.getElementById('pr');if(r)r.setAttribute('stroke-dashoffset',(653.45*(1-P.left/(P.len[P.m]*60000))).toFixed(1))}
+function finish(){P.end=null;if(P.m=='focus'){S.log.push({t:now(),k:'focus',min:P.len.focus,sid:P.sid,tid:P.tid});P.msg='أحسنت! أنهيت جلسة تركيز. بدأت الاستراحة تلقائياً.';P.m='break'}else{P.msg='انتهت الاستراحة. جاهز لجلسة جديدة؟';P.m='focus'}P.left=P.len[P.m]*60000;if(P.m=='break')P.end=now()+P.left;try{navigator.vibrate&&navigator.vibrate([300,150,300])}catch(e){}render()}
+function setMin(n){if(P.end)return;P.m='focus';P.len.focus=n;P.len.break=n>=45?10:5;P.left=n*60000;P.msg='';P.showC=false;render()}
+function showCustom(){P.showC=!P.showC;render();var e=document.getElementById('cm');if(e)e.focus()}
+function applyCustom(){var n=parseInt(nd(v('cm')),10);if(!(n>=1&&n<=180)){var e=document.getElementById('cerr');if(e)e.textContent='اكتب رقماً من 1 إلى 180';return}setMin(n)}
+function pickTask(id){P.tid=P.tid==id?null:id;render()}
+function skipBreak(){setMode('focus')}
+function togglePomo(){P.msg='';if(P.end){P.left=P.end-now();P.end=null}else{if(P.m=='focus'){var t=S.tasks.filter(function(x){return x.id==P.tid&&!x.done})[0];P.sid=t&&t.sid?t.sid:''}P.end=now()+P.left}render()}
+function viewPomo(){
+var f=P.m=='focus',run=!!P.end,tot=P.len[P.m]*60000,paused=!run&&P.left<tot,fm=P.len.focus,C=653.45;
+var td=S.tasks.filter(function(t){return!t.done}),sel=td.filter(function(t){return t.id==P.tid})[0];
+var tm=dayStart(now()),ses=S.log.filter(function(e){return e.k=='focus'&&e.t>=tm}),mins=ses.reduce(function(a,e){return a+e.min},0);
+var h='<h1>المؤقت</h1>';
+if(P.msg)h+='<div class="card badge good" style="display:block;border-radius:14px;padding:12px 14px">'+P.msg+'</div>';
+h+='<div class="pm">';
+if(f&&!run&&!paused){h+='<div class="seg"><button class="'+(fm==25?'on':'')+'" onclick="setMin(25)">25 دقيقة</button><button class="'+(fm==50?'on':'')+'" onclick="setMin(50)">50 دقيقة</button>'+(fm!=25&&fm!=50?'<button class="on">'+fm+' دقيقة</button>':'')+'<button onclick="showCustom()">+ وقت آخر</button></div>';
+if(P.showC)h+='<div class="row" style="max-width:340px;margin:0 auto 6px"><input id="cm" type="number" inputmode="numeric" min="1" max="180" placeholder="عدد الدقائق" dir="ltr" style="text-align:center"><button class="btn" onclick="applyCustom()">تأكيد</button></div><div id="cerr" class="mute" style="color:var(--bad);margin-bottom:6px"></div>'}
+h+='<div class="ringw"><svg viewBox="0 0 240 240"><circle cx="120" cy="120" r="104" fill="none" style="stroke:var(--bar)" stroke-width="12"/><circle id="pr" cx="120" cy="120" r="104" fill="none" style="stroke:'+(f?'var(--acc)':'var(--mid)')+'" stroke-width="12" stroke-linecap="round" stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-P.left/tot)).toFixed(1)+'"/></svg><div class="ctr"><span class="pill" style="'+(f?'':'background:rgba(217,145,26,.14);color:var(--mid)')+'">'+(f?'تركيز':'استراحة')+'</span><div id="pt" class="tm" style="margin-top:10px">'+fmt(P.left)+'</div>'+(f&&sel?'<div class="mute" style="margin-top:8px;max-width:72%;font-size:13px;line-height:1.4">'+esc(sel.t)+'</div>':'')+'</div></div>';
+if(f&&!run&&!paused){h+='<div style="text-align:right;max-width:340px;margin:0 auto 14px"><div class="sec" style="margin-top:0">شو بدك تدرس؟</div>';
+if(!td.length)h+='<div class="mute">ما في مهام بقائمتك. أضف مهمة من شاشة اليوم، أو ابدأ بدونها.</div>';
+td.forEach(function(t){h+='<button class="tk'+(t.id==P.tid?' on':'')+'" onclick="pickTask('+t.id+')"><i></i><span>'+esc(t.t)+'</span></button>'});
+h+='</div>'}
+if(f){h+='<button class="go" onclick="togglePomo()">'+(run?'إيقاف مؤقت':paused?'متابعة':'تركيز')+'</button>';if(run||paused)h+='<div><button class="back" style="margin-top:10px" onclick="resetPomo()">إعادة</button></div>'}
+else h+='<button class="go" style="background:var(--mid)" onclick="skipBreak()">تخطي الاستراحة</button>';
+h+='</div><div class="grid"><div class="card"><div class="big">'+ses.length+'</div><div class="mute">جلسات اليوم</div></div><div class="card"><div class="big">'+mins+'</div><div class="mute">دقائق تركيز اليوم</div></div></div>';
+return h}
+function render(){
+if(AUTH&&!S.in){document.getElementById('nav').style.display='none';document.getElementById('app').innerHTML=viewAuth();save();scrollTo(0,0);return}
+if(!S.cat||S.onb){document.getElementById('nav').style.display='none';document.getElementById('app').innerHTML=viewOnb();save();scrollTo(0,0);return}
+syncCurr();
+var v=S.open&&S.tab=='subjects'?viewDetail():S.tab=='subjects'?viewSubjects():S.tab=='today'?viewToday():S.tab=='stats'?viewStats():S.tab=='pomo'?viewPomo():S.tab=='profile'?viewProfile():viewReview();
+document.getElementById('app').innerHTML=topbar()+v;
+var due=S.subjects.reduce(function(a,s){return a+stats(s).due},0);
+var tabs=[['today','☑','اليوم'],['subjects','📚','موادي'],['review','🔄','المراجعة'+(due?' ('+due+')':'')],['stats','📊','إحصائيات'],['pomo','⏱','المؤقت']];
+document.getElementById('nav').style.display='';document.getElementById('nav').innerHTML=tabs.map(function(t){return'<button class="'+(S.tab==t[0]?'on':'')+'" onclick="go(\''+t[0]+'\')"><span>'+t[1]+'</span>'+t[2]+'</button>'}).join('');
+save()}
+function go(t){S.tf=null;S.tab=t;S.open=null;render();scrollTo(0,0)}
+function openSub(id){S.open=id;S.dt='all';render();scrollTo(0,0)}
+function addSub(){var i=document.getElementById('ns'),v=i.value.trim();if(!v)return i.focus();S.subjects.push({id:now(),name:v,lessons:[]});render()}
+function addL(sid){var i=document.getElementById('nl'),v=i.value.trim();if(!v)return i.focus();find(sid).lessons.push({id:now(),n:v,diff:+document.getElementById('nd').value,last:null,step:0});render()}
+function lesson(sid,lid){return find(sid).lessons.filter(function(l){return l.id==lid})[0]}
+function toggleL(sid,lid){var l=lesson(sid,lid);if(l.last==null){l.last=now();l.step=0;S.log.push({t:now(),k:'study'})}else{l.last=null;l.step=0}render()}
+function review(sid,lid){var l=lesson(sid,lid);l.last=now();l.step++;S.log.push({t:now(),k:'review'});render()}
+function addT(){var i=document.getElementById('nt'),v=i.value.trim();if(!v)return i.focus();S.tasks.push({id:now(),t:v,done:false,kind:'other'});S.tf=null;render()}
+function toggleT(id){S.tasks.forEach(function(t){if(t.id==id){t.done=!t.done;if(t.done&&t.lid&&!t.applied){var s=find(t.sid),l=s&&s.lessons.filter(function(x){return x.id==t.lid})[0];if(l){if(t.kind=='study'){if(l.last==null){l.last=now();l.step=0;S.log.push({t:now(),k:'study'})}}else{l.last=now();l.step++;S.log.push({t:now(),k:'review'})}}t.applied=true}}});render()}
+function delT(id){S.tasks=S.tasks.filter(function(t){return t.id!=id});render()}
+render();
+</script>
+</body>
+</html>
