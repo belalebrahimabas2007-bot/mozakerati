@@ -262,10 +262,10 @@ function nd(s){return s.replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧�
 function showErr(m){var e=document.getElementById('err');if(e){e.textContent=m;e.style.display='block'}}
 function setAM(n){AM=n?'signup':'login';render()}
 async function doSignup(){
-var fn=v('fn'),ln=v('ln'),em=v('em').toLowerCase(),ph=nd(v('ph')).replace(/[\\s-]/g,''),gv=v('gv'),pw=document.getElementById('pw').value,pw2=document.getElementById('pw2').value;
+var fn=v('fn'),ln=v('ln'),em=v('em').toLowerCase(),ph=nd(v('ph')).replace(/[\s-]/g,''),gv=v('gv'),pw=document.getElementById('pw').value,pw2=document.getElementById('pw2').value;
 if(!fn||!ln)return showErr('اكتب الاسم والكنية');
-if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(em))return showErr('الإيميل غير صحيح');
-if(!/^\\+?\\d{8,15}$/.test(ph))return showErr('رقم الهاتف غير صحيح');
+if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))return showErr('الإيميل غير صحيح');
+if(!/^\+?\d{8,15}$/.test(ph))return showErr('رقم الهاتف غير صحيح');
 if(!gv)return showErr('اختر المحافظة');
 if(pw.length<6)return showErr('كلمة السر لازم تكون ٦ أحرف على الأقل');
 if(pw!==pw2)return showErr('كلمتا السر غير متطابقتين');
@@ -287,7 +287,7 @@ try{
 var pr=await sb.from('profiles').select('full_name,stage,city,role').eq('id',user.id).maybeSingle();
 if(!pr.error)profile=pr.data;
 }catch(e){}
-var parts=(profile&&profile.full_name?profile.full_name:'').trim().split(/\\s+/);
+var parts=(profile&&profile.full_name?profile.full_name:'').trim().split(/\s+/);
 ACCT={email:user.email||em,first:parts[0]||'',last:parts.slice(1).join(' '),phone:'',gov:profile&&profile.city||''};
 try{localStorage.setItem(AK,JSON.stringify(ACCT))}catch(e){}
 S.in=true;
