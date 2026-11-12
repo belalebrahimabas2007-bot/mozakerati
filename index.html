@@ -66,7 +66,11 @@ nav button.on{color:var(--acc)}
 <body>
 <main id="app"></main>
 <nav id="nav"></nav>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+var SB_URL="https://lgowyigazqgvxrdunxon.supabase.co";
+var SB_KEY="sb_publishable_RB2CYOlwawTFSxAIfwcXJA_k6GF1FL5";
+var sb=window.supabase.createClient(SB_URL,SB_KEY);
 var DAY=864e5,STEPS=[1,3,7,14],KEY='mothakarati_v1';
 var now=function(){return Date.now()};
 function seed(){var d=function(n){return now()-n*DAY};
@@ -251,30 +255,50 @@ CATS.forEach(function(c,i){h+='<button class="card subj" onclick="pickCat('+i+')
 if(S.cat)h+='<p class="mute">اختيار مرحلة جديدة بيستبدل موادك الحالية.</p><button class="back" onclick="cancelOnb()">متابعة بنفس المرحلة</button>';
 return h}
 var AK='mothakarati_acct',ACCT=null;try{ACCT=JSON.parse(localStorage.getItem(AK))}catch(e){}
-var AM=ACCT?'login':'signup';
+var AM='login';
 var GOV=['دمشق','ريف دمشق','حلب','حمص','حماة','اللاذقية','طرطوس','إدلب','دير الزور','الرقة','الحسكة','درعا','السويداء','القنيطرة'];
-async function hashPw(s,p){try{var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s+p));return Array.from(new Uint8Array(b)).map(function(x){return('0'+x.toString(16)).slice(-2)}).join('')}catch(e){var h=5381,t=s+p;for(var i=0;i<t.length;i++)h=(h*33)^t.charCodeAt(i);return String(h>>>0)}}
 function v(id){var e=document.getElementById(id);return e?e.value.trim():''}
 function nd(s){return s.replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d)})}
 function showErr(m){var e=document.getElementById('err');if(e){e.textContent=m;e.style.display='block'}}
 function setAM(n){AM=n?'signup':'login';render()}
 async function doSignup(){
-var fn=v('fn'),ln=v('ln'),em=v('em').toLowerCase(),ph=nd(v('ph')).replace(/[\s-]/g,''),gv=v('gv'),pw=document.getElementById('pw').value,pw2=document.getElementById('pw2').value;
+var fn=v('fn'),ln=v('ln'),em=v('em').toLowerCase(),ph=nd(v('ph')).replace(/[\\s-]/g,''),gv=v('gv'),pw=document.getElementById('pw').value,pw2=document.getElementById('pw2').value;
 if(!fn||!ln)return showErr('اكتب الاسم والكنية');
-if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))return showErr('الإيميل غير صحيح');
-if(!/^\+?\d{8,15}$/.test(ph))return showErr('رقم الهاتف غير صحيح');
+if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(em))return showErr('الإيميل غير صحيح');
+if(!/^\\+?\\d{8,15}$/.test(ph))return showErr('رقم الهاتف غير صحيح');
 if(!gv)return showErr('اختر المحافظة');
 if(pw.length<6)return showErr('كلمة السر لازم تكون ٦ أحرف على الأقل');
 if(pw!==pw2)return showErr('كلمتا السر غير متطابقتين');
-var salt=String(now())+Math.random();ACCT={email:em,salt:salt,hash:await hashPw(salt,pw),first:fn,last:ln,phone:ph,gov:gv};
+var full=fn+' '+ln;
+var res=await sb.auth.signUp({email:em,password:pw,options:{data:{full_name:full,city:gv}}});
+if(res.error)return showErr(res.error.message||'تعذر إنشاء الحساب');
+ACCT={email:em,first:fn,last:ln,phone:ph,gov:gv};
 try{localStorage.setItem(AK,JSON.stringify(ACCT))}catch(e){}
-S.in=true;S.cat=null;S.onb=false;S.step=null;render()}
+if(res.data.session){S.in=true;S.cat=null;S.onb=false;S.step=null;render()}
+else{AM='login';render();showErr('تم إنشاء الحساب. إذا طلب Supabase تأكيد البريد، افتح بريدك وأكّد الحساب ثم سجّل الدخول.')}
+}
 async function doLogin(){
 var em=v('em').toLowerCase(),pw=document.getElementById('pw').value;
-if(!ACCT||em!==ACCT.email||await hashPw(ACCT.salt,pw)!==ACCT.hash)return showErr('الإيميل أو كلمة السر غير صحيحة');
-S.in=true;render()}
-function logout(){P.end=null;S.in=false;S.tab='subjects';S.onb=true;S.step=null;S.open=null;AM='login';render()}
-var AUTH=false;
+if(!em||!pw)return showErr('أدخل الإيميل وكلمة السر');
+var res=await sb.auth.signInWithPassword({email:em,password:pw});
+if(res.error)return showErr('الإيميل أو كلمة السر غير صحيحة، أو الحساب يحتاج تأكيد البريد.');
+var user=res.data.user,profile=null;
+try{
+var pr=await sb.from('profiles').select('full_name,stage,city,role').eq('id',user.id).maybeSingle();
+if(!pr.error)profile=pr.data;
+}catch(e){}
+var parts=(profile&&profile.full_name?profile.full_name:'').trim().split(/\\s+/);
+ACCT={email:user.email||em,first:parts[0]||'',last:parts.slice(1).join(' '),phone:'',gov:profile&&profile.city||''};
+try{localStorage.setItem(AK,JSON.stringify(ACCT))}catch(e){}
+S.in=true;
+if(profile&&profile.stage&&!S.catName){S.catName=profile.stage}
+render();
+}
+async function logout(){
+await sb.auth.signOut();
+P.end=null;S.in=false;S.tab='subjects';S.onb=true;S.step=null;S.open=null;AM='login';render()
+}
+var AUTH=true;
 function viewAuth(){
 var su=AM=='signup',ltr='dir="ltr" style="text-align:right"';
 var h='<h1>'+(su?'إنشاء حساب':'تسجيل الدخول')+'</h1><p class="sub">'+(su?'أدخل بياناتك لتبدأ':'أهلاً بعودتك')+'</p><div class="card" style="display:flex;flex-direction:column;gap:10px">';
@@ -284,7 +308,7 @@ if(su)h+='<input id="ph" type="tel" placeholder="رقم الهاتف" '+ltr+' au
 h+='<input id="pw" type="password" placeholder="كلمة السر" '+ltr+' autocomplete="'+(su?'new-password':'current-password')+'">';
 if(su)h+='<input id="pw2" type="password" placeholder="تأكيد كلمة السر" '+ltr+' autocomplete="new-password">';
 h+='<div id="err" class="badge bad" style="display:none;border-radius:10px;padding:8px 12px;white-space:normal"></div><button class="btn big2" onclick="'+(su?'doSignup()':'doLogin()')+'">'+(su?'إنشاء الحساب':'دخول')+'</button></div>';
-if(su&&ACCT)h+='<p class="mute">إنشاء حساب جديد بيستبدل الحساب الحالي على هذا الجهاز.</p><button class="back" onclick="setAM(0)">عندي حساب، تسجيل الدخول</button>';
+if(su)h+='<button class="back" onclick="setAM(0)">عندي حساب، تسجيل الدخول</button>';
 if(!su)h+='<button class="back" onclick="setAM(1)">ما عندي حساب، إنشاء حساب</button>';
 return h}
 function openProfile(){S.prev=S.tab;S.tab='profile';S.open=null;render();scrollTo(0,0)}
@@ -357,6 +381,8 @@ function review(sid,lid){var l=lesson(sid,lid);l.last=now();l.step++;S.log.push(
 function addT(){var i=document.getElementById('nt'),v=i.value.trim();if(!v)return i.focus();S.tasks.push({id:now(),t:v,done:false,kind:'other'});S.tf=null;render()}
 function toggleT(id){S.tasks.forEach(function(t){if(t.id==id){t.done=!t.done;if(t.done&&t.lid&&!t.applied){var s=find(t.sid),l=s&&s.lessons.filter(function(x){return x.id==t.lid})[0];if(l){if(t.kind=='study'){if(l.last==null){l.last=now();l.step=0;S.log.push({t:now(),k:'study'})}}else{l.last=now();l.step++;S.log.push({t:now(),k:'review'})}}t.applied=true}}});render()}
 function delT(id){S.tasks=S.tasks.filter(function(t){return t.id!=id});render()}
+S.in=false;
+sb.auth.getSession().then(function(r){if(r.data&&r.data.session){S.in=true;render()}else{S.in=false;render()}}).catch(function(){S.in=false;render()});
 render();
 </script>
 </body>
